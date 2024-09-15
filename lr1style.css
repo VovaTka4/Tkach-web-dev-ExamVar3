@@ -1,0 +1,85 @@
+  body {
+    margin: 0;
+  }
+  
+  header {
+    background-color: white;
+    color: black;
+    padding: 20px 20px;
+    font-size: 20px;
+  }
+  
+  h2{
+    font-weight: 900;
+  }
+
+  .main-menu > ul {
+    margin: 0;
+    list-style: none;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .main-menu  a {
+    color: black;
+    text-decoration: none;
+  } 
+  
+  .main-menu a:hover{
+    color: salmon;
+  }
+
+  .main-menu li {
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  .foodPicture {
+    width: 550px;
+    height: auto;
+
+  }
+
+  #top5dishes {
+    width: 500px;
+    border-collapse: collapse;
+  }
+
+  #top5dishes th, #top5dishes td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+
+  p {
+    margin-top: 0px;
+    font-weight:500;
+  }
+
+  #adlist {
+    list-style-type: disc;
+    margin-left: 20px;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 75%;
+    margin: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  .footerContainer {
+    background-color: black;
+    color: white;
+    text-align: left;
+    margin-top: 20px;
+    padding: 20px;
+    width: 100%;
+  }
+
+  *{
+    box-sizing: border-box;
+    font-family: 'Reddit Sans Condensed', sans-serif;
+    max-width: 850px;
+  }
