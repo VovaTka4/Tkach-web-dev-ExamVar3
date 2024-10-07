@@ -105,6 +105,87 @@
                 </div>    
             </section>
         </main>
+        <div id="orderFormContainer">
+            <section id="orderForm">
+                <h2>Сделать заказ</h2>
+                <form action="https://httpbin.org/post" method="post">
+                    <div class="form-cols">
+                        <div class="orderFormDetails">
+                            <p>Ваш заказ</p>
+                            <label for="soupSelect">Суп<br>
+                                <select name="soupSelect" id="soup-select" required>
+                                    <option value="">-- Выберите суп --</option>
+                                    <option value="shroomsoup">Грибной суп-пюре</option>
+                                    <option value="gazpacho">Гаспачо</option>
+                                    <option value="norway">Норвежский суп</option>
+                                </select>
+                            </label>
+                            <label for="mainSelect">Главное блюдо<br>
+                                <select name="mainSelect" id="main-select" required>
+                                    <option value="">-- Выберите главное блюдо --</option>
+                                    <option value="potato">Жареная картошка с грибами</option>
+                                    <option value="lasagna">Лазанья</option>
+                                    <option value="chickbeats">Котлеты из курицы с картофельным пюре</option>
+                                </select>
+                            </label>
+                            <label for="drinkSelect">Напиток<br>
+                                <select name="drinkSelect" id="drink-select" required>
+                                    <option value="">-- Выберите Напиток --</option>
+                                    <option value="orangeJ">Апельсиновый сок</option>
+                                    <option value="appleJ">Яблочный сок</option>
+                                    <option value="carrotJ">Морковный сок</option>
+                                </select>
+                            </label>
+                            <label for="comment">Комментарии к заказу<br>
+                                <textarea id="comment" name="comment" rows="10" cols="36"></textarea>
+                            </label>
+                        </div>
+                        <div class="orderFormDetails">
+                            <p>Ваши данные</p>
+                            <label for="nameField">Имя<br>
+                                <input type="text" id="nameField" name="nameField" required>
+                            </label>
+                            <label for="emailField">Email<br>
+                                <input type="text" id="emailField" name="emailField" required>
+                            </label>
+                            <label for="spamConfirmation">
+                            <input type="checkbox" id="spamConfirmation" name="spamConfirmation" checked>Поулчать информацию о скидках и акциях
+                            </label>
+                            <label for="phoneField">Номер телефона<br>
+                                <input type="tel" id="phoneField" name="phoneField" required>
+                            </label>
+                            <label for="addressField">Адрес доставки<br>
+                                <label for="addressField" class="formPS">
+                                    <input type="text" id="addressField" name="addressField" required>
+                                    <br>Доставка осуществляется только по Москве
+                                </label>
+                            </label>
+                            <fieldset id="deliveryTime">
+                                <legend>Время доставки:</legend>
+                                <div>
+                                    <label for="fast">
+                                        <input type="radio" name="deliveryTime" value="fast" required>Как можно скорее
+                                    </label>
+                                    <label for="timed">
+                                        <input type="radio" name="deliveryTime" value="timed">К указанному времени
+                                    </label>
+                                </div>
+                            </fieldset>
+                            <label for="exactTime">Укажите время доставки<br>
+                                <label for="exactTime" class="formPS">
+                                    <input type="time" id="exactTime" name="exactTime" min="07:00" max="23:00" step="300">
+                                    <br>Доступное время доставки с 7:00 до 23:00
+                                </label>
+                            </label>
+                            <div class="button-row">
+                                <button type="reset" class="formbuttons">Сбросить</button>
+                                <button type="submit" class="formbuttons">Отправить</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
         <footer id="contacts">
             <div class="footerContainer">
                 <p> Позвонить нам +7-000-000-00-00 </p>

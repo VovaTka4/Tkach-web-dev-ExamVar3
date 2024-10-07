@@ -66,6 +66,64 @@
     font-weight: 700;
 }
 
+#orderForm h2{
+    text-align: center;
+}
+
+#orderFormContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.form-cols {
+    max-width: 850px;
+    display: flex;
+    justify-content: space-between;
+    gap: 120px;
+}
+
+.orderFormDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formPS{
+    color: grey;
+    font-style: italic; 
+    font-size: 12px;
+}
+
+#deliveryTime {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+#deliveryTime label {
+    display: block;
+    gap: 10px;
+}
+
+#soup-select, #main-select, #drink-select, #nameField, #emailField, #phoneField, #addressField, #exactTime{
+    box-sizing: border-box;
+    width: 250px;
+    height: 30px;
+}
+
+.button-row{
+    display: flex;
+    justify-content: space-between;
+    width: 250px;
+    margin-bottom: 20px;
+}
+
+.button-row button{
+    background-color: white;
+    width: calc(50% - 5px);
+    height: 30px;
+}
+
 @media screen and (max-width: 800px){
     .menu-container {
         display: grid;

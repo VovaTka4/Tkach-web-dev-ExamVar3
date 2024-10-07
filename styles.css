@@ -1,5 +1,13 @@
-  body {
+  html, body{
+    height: 100%;
     margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
   
   header {
@@ -9,11 +17,24 @@
     font-size: 20px;
   }
   
+  main{
+    flex: 1;
+    margin-bottom: 20px;
+  }
+
   h2{
     font-weight: 900;
   }
 
-  .main-menu > ul {
+  .main-menu{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .main-menu ul {
+    display: flex;
+    gap: 15px;
     margin: 0;
     list-style: none;
     list-style-type: none;
@@ -26,12 +47,16 @@
   } 
   
   .main-menu a:hover{
-    color: salmon;
+    color: tomato;
   }
 
   .main-menu li {
-    display: inline-block;
+    display: flex;
     margin-right: 20px;
+  }
+
+  .main-menu .active {
+    color: tomato;
   }
   
   .foodPicture {
@@ -46,6 +71,7 @@
   }
 
   #top5dishes th, #top5dishes td {
+    font-size: 18px;
     border: 1px solid black;
     padding: 8px;
     text-align: center;
@@ -73,9 +99,9 @@
     background-color: black;
     color: white;
     text-align: left;
-    margin-top: 20px;
+    margin-top: auto;
     padding: 20px;
-    width: 100vw;
+    width: 100%;
   }
 
   .container, header, .main-menu, #top5dishes, p {
@@ -86,3 +112,53 @@
     box-sizing: border-box;
     font-family: 'Reddit Sans Condensed', sans-serif;
   }
+
+  @media screen and (max-width: 800px){
+    .main-menu ul{
+      display:flex;
+      justify-content: space-between;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+
+    .main-menu li{
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .foodPicture{
+      width:500px;
+      height:auto;
+    }
+}
+
+@media screen and (max-width: 600px){
+  #Title{
+    text-align: center;
+  }
+
+  .main-menu a{
+    font-size: larger;
+  }
+
+  .main-menu ul{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .foodPicture{
+    width: 100%;
+    height: auto;
+  }
+
+  #top5dishes th, #top5dishes td {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 400px){
+  #top5dishes th, #top5dishes td {
+    font-size: 14px;
+  }
+}
