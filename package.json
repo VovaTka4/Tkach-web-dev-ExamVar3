@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "eslint": "^9.13.0",
     "htmlhint": "^1.1.4"
   }
 }
