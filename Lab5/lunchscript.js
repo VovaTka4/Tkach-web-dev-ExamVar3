@@ -6,31 +6,7 @@ const order = {
     salad: null
 };
 
-function addToOrder(keyword) {
-    const selectedDish = dishes.find(dish => dish.keyword === keyword);
-    
-    if (selectedDish.category === 'soup'){
-        order.soup = selectedDish;
-        document.getElementById('soup-selection').textContent = selectedDish.name;
-    }
-    else if (selectedDish.category === 'main'){
-        order.main = selectedDish;
-        document.getElementById('main-selection').textContent = selectedDish.name;
-    } else if (selectedDish.category === 'drink'){
-        order.drink = selectedDish;
-        document.getElementById('drink-selection').textContent = selectedDish.name;
-    } else if (selectedDish.category === 'salad'){
-        order.salad = selectedDish;
-        document.getElementById('salad-selection').textContent = selectedDish.name;
-    } else if (selectedDish.category === 'desert'){
-        order.desert = selectedDish;
-        document.getElementById('desert-selection').textContent = selectedDish.name;
-    }
-
-    updateDisplay();
-}
-
-function updateDisplay(){
+function updateDisplay() {
     const noSelection = document.getElementById('nothing');
     const totalP = document.getElementById('totalPrice');
     const selectedSoup = document.getElementById('soup');
@@ -39,17 +15,26 @@ function updateDisplay(){
     const selectedSalad = document.getElementById('salad');
     const selectedDesert = document.getElementById('desert');
 
-    if (order.soup || order.drink || order.main || order.desert || order.salad){
+    if (order.soup || order.drink || order.main 
+        || order.desert || order.salad) {
         noSelection.style.display = 'none';
         selectedSoup.style.display = 'block';
-        selectedSoup.querySelector('span').textContent = order.soup ? order.soup.name+" "+order.soup.price+"₽" : 'Блюдо не выбрано';
+        selectedSoup.querySelector('span').textContent = order.soup ? 
+            order.soup.name + " " + order.soup.price + "₽" : 'Блюдо не выбрано';
         selectedMain.style.display = 'block';
-        selectedMain.querySelector('span').textContent = order.main ? order.main.name+" "+order.main.price+"₽" : 'Блюдо не выбрано';
+        selectedMain.querySelector('span').textContent = order.main ?
+            order.main.name + " " + order.main.price + "₽" : 'Блюдо не выбрано';
         selectedDrink.style.display = 'block';
-        selectedDrink.querySelector('span').textContent = order.drink ? order.drink.name+" "+order.drink.price+"₽" : 'Напиток не выбран';
-        selectedSalad.querySelector('span').textContent = order.salad ? order.salad.name+" "+order.salad.price+"₽" : 'Блюдо не выбрано';
+        selectedDrink.querySelector('span').textContent = order.drink ?
+            order.drink.name + " " + 
+            order.drink.price + "₽" : 'Напиток не выбран';
+        selectedSalad.querySelector('span').textContent = order.salad ?
+            order.salad.name + " " +
+            order.salad.price + "₽" : 'Блюдо не выбрано';
         selectedSalad.style.display = 'block';
-        selectedDesert.querySelector('span').textContent = order.desert ? order.desert.name+" "+order.desert.price+"₽" : 'Блюдо не выбран';
+        selectedDesert.querySelector('span').textContent = order.desert ?
+            order.desert.name + " " +
+            order.desert.price + "₽" : 'Блюдо не выбран';
         selectedDesert.style.display = 'block';
         totalP.style.display = 'block';
         let total = 0;
@@ -59,8 +44,7 @@ function updateDisplay(){
         total += order.salad ? order.salad.price : 0;
         total += order.desert ? order.desert.price : 0;
         totalP.querySelector('span').textContent = `${total}₽`;
-    }
-    else{
+    } else {
         noSelection.style.display = 'block';
         totalP.style.display = 'none';
         selectedSoup.style.display = 'none';
@@ -69,6 +53,34 @@ function updateDisplay(){
         selectedDesert.style.display = 'none';
         selectedSalad.style.display = 'none';
     }
+}
+
+function addToOrder(keyword) {
+    const selectedDish = dishes.find(dish => dish.keyword === keyword);
+    
+    if (selectedDish.category === 'soup') {
+        order.soup = selectedDish;
+        document.getElementById('soup-selection').textContent = 
+        selectedDish.name;
+    } else if (selectedDish.category === 'main') {
+        order.main = selectedDish;
+        document.getElementById('main-selection').textContent = 
+        selectedDish.name;
+    } else if (selectedDish.category === 'drink') {
+        order.drink = selectedDish;
+        document.getElementById('drink-selection').textContent = 
+        selectedDish.name;
+    } else if (selectedDish.category === 'salad') {
+        order.salad = selectedDish;
+        document.getElementById('salad-selection').textContent = 
+        selectedDish.name;
+    } else if (selectedDish.category === 'desert') {
+        order.desert = selectedDish;
+        document.getElementById('desert-selection').textContent = 
+        selectedDish.name;
+    }
+
+    updateDisplay();
 }
 
 function displayDish() {
@@ -80,7 +92,7 @@ function displayDish() {
         desert: document.querySelector('#desert-section .menu-container'),
     };
 
-    dishes.sort((a,b) => a.name.localeCompare(b.name));
+    dishes.sort((a, b) => a.name.localeCompare(b.name));
 
     dishes.forEach(dish => {
         const dishCard = document.createElement('div');
@@ -120,7 +132,7 @@ function displayDish() {
 
 document.addEventListener("DOMContentLoaded", displayDish);
 
-document.getElementById('resetB').onclick = function(){
+document.getElementById('resetB').onclick = function() {
     order.soup = null;
     order.main = null;
     order.drink = null;
@@ -134,7 +146,7 @@ document.getElementById('resetB').onclick = function(){
     updateDisplay();
 };
 
-document.getElementById('postB').onclick = function(event){
+document.getElementById('postB').onclick = function(event) {
     const soupForm = document.getElementById('hiddenSoup');
     const mainForm = document.getElementById('hiddenMain');
     const drinkForm = document.getElementById('hiddenDrink');
@@ -146,7 +158,8 @@ document.getElementById('postB').onclick = function(event){
     desertForm.value = order.desert ? order.desert.keyword : '';
     saladForm.value = order.salad ? order.salad.keyword : '';
 
-    if (!soupForm.value || !mainForm.value || !drinkForm.value || !saladForm.value || !desertForm.value){
+    if (!soupForm.value || !mainForm.value || 
+        !drinkForm.value || !saladForm.value || !desertForm.value) {
         event.preventDefault();
         alert('Выберите все позиции!');
     }
@@ -156,19 +169,22 @@ document.querySelectorAll('.filetr-btn').forEach(button => {
     button.addEventListener('click', () => {
         const filterRow = button.parentNode;
         const filterRowId = filterRow.id;
-        const categoryDishesContainer = document.querySelector(`#${filterRowId.replace('Filter', '-section')} .menu-container`);
+        const categoryDishesContainer = document.querySelector(
+            `#${filterRowId.replace('Filter', '-section')} .menu-container`);
         filterRow.querySelectorAll('.filetr-btn').forEach(btn => {            
             if (btn !== button) btn.classList.remove('active');
         });
         button.classList.toggle('active');
      
-        const selectedKind = button.classList.contains('active') ? button.getAttribute('data-kind') : null;
-    Array.from(categoryDishesContainer.children).forEach(dish => {
-         if (!selectedKind || dish.getAttribute('data-kind') === selectedKind) {                
-            dish.style.display = 'block';
-         } else {
-            dish.style.display = 'none'; 
-         }        
+        const selectedKind = button.classList.contains('active') ? 
+            button.getAttribute('data-kind') : null;
+        Array.from(categoryDishesContainer.children).forEach(dish => {
+            if (!selectedKind || dish.getAttribute('data-kind') 
+            === selectedKind) {                
+                dish.style.display = 'block';
+            } else {
+                dish.style.display = 'none'; 
+            }        
         });
     });
 });
