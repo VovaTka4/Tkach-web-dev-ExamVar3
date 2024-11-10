@@ -148,6 +148,11 @@
     border-radius: 10px;
 }
 
+.dish-card.selected {
+    border-color: tomato; 
+}
+
+
 @media screen and (max-width: 800px){
     .menu-container {
         display: grid;

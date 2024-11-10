@@ -123,6 +123,11 @@ document.getElementById('resetB').onclick = function(){
     order.soup = null;
     order.main = null;
     order.drink = null;
+
+    document.querySelectorAll('.dish-card.selected').forEach(card => {
+        card.classList.remove('selected'); 
+    });
+
     updateDisplay();
 };
 
@@ -143,3 +148,18 @@ document.getElementById('postB').onclick = function(event){
         alert('Выберите все позиции!');
     }
 };
+
+document.querySelectorAll('.menu-section').forEach(section => {
+    section.addEventListener('click', (event) => {
+        if (event.target.classList.contains('add-button')) {
+            const selectedCard = event.target.closest('.dish-card'); 
+            const menuContainer = selectedCard.parentNode;
+
+            menuContainer.querySelectorAll('.dish-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            selectedCard.classList.add('selected');
+        }
+    });
+});

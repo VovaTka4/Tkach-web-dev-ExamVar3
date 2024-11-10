@@ -126,6 +126,11 @@ document.getElementById('resetB').onclick = function(){
     order.drink = null;
     order.salad = null;
     order.desert = null;
+
+    document.querySelectorAll('.dish-card.selected').forEach(card => {
+        card.classList.remove('selected');
+    });
+
     updateDisplay();
 };
 
@@ -165,5 +170,20 @@ document.querySelectorAll('.filetr-btn').forEach(button => {
             dish.style.display = 'none'; 
          }        
         });
+    });
+});
+
+document.querySelectorAll('.menu-section').forEach(section => {
+    section.addEventListener('click', (event) => {
+        if (event.target.classList.contains('add-button')) {
+            const selectedCard = event.target.closest('.dish-card'); 
+            const menuContainer = selectedCard.parentNode;
+
+            menuContainer.querySelectorAll('.dish-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            selectedCard.classList.add('selected');
+        }
     });
 });

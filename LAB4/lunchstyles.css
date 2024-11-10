@@ -24,6 +24,10 @@
     padding: 30px 40px;
 }
 
+.dish-card.selected{
+    border-color: tomato;
+}
+
 .dish-card:hover{
     border-color: tomato;
     border-width: 2px;
