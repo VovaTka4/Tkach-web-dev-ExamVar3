@@ -256,6 +256,7 @@ document.querySelectorAll('.filetr-btn').forEach(button => {
     button.addEventListener('click', () => {
         const filterRow = button.parentNode;
         const filterRowId = filterRow.id;
+
         const categoryDishesContainer = document.querySelector(
             `#${filterRowId.replace('Filter', '-section')} .menu-container`);
         filterRow.querySelectorAll('.filetr-btn').forEach(btn => {            
@@ -278,6 +279,7 @@ document.querySelectorAll('.filetr-btn').forEach(button => {
 
 document.querySelectorAll('.menu-section').forEach(section => {
     section.addEventListener('click', (event) => {
+
         if (event.target.classList.contains('add-button')) {
             const selectedCard = event.target.closest('.dish-card'); 
             const menuContainer = selectedCard.parentNode;
