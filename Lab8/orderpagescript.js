@@ -157,7 +157,7 @@ displayDish = function () {
 };
 
 async function loadDishes() {
-    const API_URL = "http://lab7-api.std-900.ist.mospolytech.ru/api/dishes";
+    const API_URL = "http://lab8-api.std-900.ist.mospolytech.ru/labs/api/dishes?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84";
 
     try {
         const response = await fetch(API_URL);
@@ -171,6 +171,8 @@ async function loadDishes() {
         console.log("ЗАГРУЗИЛ ЭТО: ", data);
 
         dishes = data;
+
+        console.log("А ЭТО ДИЩИС: ", dishes);
 
         displayDish();
         
@@ -267,45 +269,48 @@ function getMissingDish(soup, main, drink, salad) {
 }
 
 async function sendOrder() {
-    const soupForm = document.getElementById('hiddenSoup');
-    const mainForm = document.getElementById('hiddenMain');
-    const drinkForm = document.getElementById('hiddenDrink');
-    const saladForm = document.getElementById('hiddenSalad');
-    const desertForm = document.getElementById('hiddenDesert');
-
-    const orderData = {
-        full_name: document.getElementById('nameField').value,
-        email: document.getElementById('emailField').value,
-        subscribe: document.getElementById('spamConfirmation').checked ? 1 : 0,
-        phone: document.getElementById('phoneField').value,
-        delivery_address: document.getElementById('addressField').value,
-        delivery_type: document.querySelector(
-            'input[name="deliveryTime"]:checked')?.value || 'now',
-        delivery_time: document.getElementById('exactTime').value || '',
-        comment: document.getElementById('comment').value || '',
-        soup_id: soupForm.value || '',
-        main_course_id: mainForm.value || '',
-        salad_id: saladForm.value || '',
-        drink_id: drinkForm.value || '',
-        dessert_id: desertForm.value || '',
-    };
-
-    console.log("Данные для отправки:", orderData);
-
     try {
-        const params = new URLSearchParams(orderData);
+        const form = document.getElementById('orderFormData');
+        const formData = new FormData(form);
 
-        console.log("Отправляемые данные:", params.toString());
+        if (!formData.has('subscribe')) {
+            formData.append('subscribe', '0');
+        } else {
+            formData.set('subscribe', '1');
+        }
+
+        if (formData.get('soup_id') == '') {
+            formData.delete('soup_id');
+        }
+        if (formData.get('main_course_id') == '') {
+            formData.delete('main_course_id');
+        }
+        if (formData.get('salad_id') == '') {
+            formData.delete('salad_id');
+        }
+        if (formData.get('dessert_id') == '') {
+            formData.delete('dessert_id');
+        }
+        if (formData.get('drink_id') == '') {
+            formData.delete('drink_id');
+        }
+        if (formData.get('delivery_type') == 'now') {
+            formData.delete('delivery_time');
+        }
+        if (formData.get('comment') == '') {
+            formData.delete('comment');
+        }
+
+        console.log("Отправляемые данные:");
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
 
         const response = await fetch(
-            "http://lab8-api.std-900.ist.mospolytech.ru/labs/api\
-            /orders?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84", 
+            "http://lab8-api.std-900.ist.mospolytech.ru/labs/api/orders?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84", 
             {
                 method: 'POST',
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: params.toString(),
+                body: formData,
             }
         );
 
@@ -338,14 +343,21 @@ document.getElementById('postB').onclick = function(event) {
     const saladForm = document.getElementById('hiddenSalad');
     const desertForm = document.getElementById('hiddenDesert');
 
-    soupForm.value = order.soup ? order.soup.keyword : '';
-    mainForm.value = order.main ? order.main.keyword : '';
-    drinkForm.value = order.drink ? order.drink.keyword : '';
-    saladForm.value = order.salad ? order.salad.keyword : '';
-    desertForm.value = order.desert ? order.desert.keyword : '';
+    const nameForm = document.getElementById('nameField');
+    const emailForm = document.getElementById('emailField');
+    const addressForm = document.getElementById('addressField');
+    const phoneForm = document.getElementById('phoneField');
+    const deliveryTypeForm = document.querySelector('input[name="delivery_type"]:checked');
+    const exactTimeForm = document.getElementById('exactTime');
+
+    soupForm.value = order.soup ? order.soup.id : '';
+    mainForm.value = order.main ? order.main.id : '';
+    drinkForm.value = order.drink ? order.drink.id : '';
+    saladForm.value = order.salad ? order.salad.id : '';
+    desertForm.value = order.desert ? order.desert.id : '';
 
     if (!soupForm.value && !mainForm.value && !drinkForm.value &&
-         !saladForm.value && !desertForm.value) {
+        !saladForm.value && !desertForm.value) {
         event.preventDefault();
         showNotification("Ничего не выбрано!");
     } else {
@@ -365,8 +377,21 @@ document.getElementById('postB').onclick = function(event) {
                 salad: "салат/стартер"
             };
             showNotification(`Вы не выбрали ${dishNames[missingDish]}!`);
+        } else if (nameForm.value == '') {
+            showNotification('Заполните имя!');
+        } else if (emailForm.value == '') {
+            showNotification('Заполните почту!');
+        } else if (phoneForm.value == '') {
+            showNotification('Заполните номер телефона!');
+        } else if (addressForm.value == '') {
+            showNotification('Заполните адрес доставки!');
+        } else if (!deliveryTypeForm) {
+            showNotification('Укажите время доставки!');
+        } else if (exactTimeForm.value == '') {
+            showNotification('Укажите точное время доставки!');
+        } else {
+            console.log("SENDING ORDER!!!!");
+            sendOrder();
         }
-    }
-
-    sendOrder();
+    }   
 };

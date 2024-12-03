@@ -39,21 +39,21 @@
         <div id="orderFormContainer">
             <section id="orderForm">
                 <h2>Оформить заказ</h2>
-                <form action="https://httpbin.org/post" method="post">
+                <form action="http://lab8-api.std-900.ist.mospolytech.ru/labs/api/orders?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84" method="post" id="orderFormData">
                     <div class="form-cols">
                         <div class="orderFormDetails">
                             <p>Ваш заказ</p>
                             <p id="nothing"><b>Ничего не выбрано</b></p>
                             <p id="soup"><b>Суп</b><br><span id="soup-selection">Блюдо не выбрано</span></p>
-                            <input type="hidden" name="soupSelect" id="hiddenSoup">
+                            <input type="hidden" name="soup_id" id="hiddenSoup">
                             <p id="main"><b>Главное блюдо</b><br><span id="main-selection">Блюдо не выбрано</span></p>
-                            <input type="hidden" name="mainSelect" id="hiddenMain">
+                            <input type="hidden" name="main_course_id" id="hiddenMain">
                             <p id="salad"><b>Салат/стартер</b><br><span id="salad-selection">Блюдо не выбрано</span></p>
-                            <input type="hidden" name="saladSelect" id="hiddenSalad">
+                            <input type="hidden" name="salad_id" id="hiddenSalad">
                             <p id="drink"><b>Напиток</b><br><span id="drink-selection">Напиток не выбран</span></p>
-                            <input type="hidden" name="drinkSelect" id="hiddenDrink">
+                            <input type="hidden" name="drink_id" id="hiddenDrink">
                             <p id="desert"><b>Десерт</b><br><span id="desert-selection">Блюдо не выбрано</span></p>
-                            <input type="hidden" name="desertSelect" id="hiddenDesert">
+                            <input type="hidden" name="dessert_id" id="hiddenDesert">
                             <p id="totalPrice"><b>Стоимость заказа</b><br><span id="total"></span></p>
                             <label for="comment">Комментарии к заказу<br>
                                 <textarea id="comment" name="comment" rows="10" cols="36"></textarea>
@@ -61,21 +61,21 @@
                         </div>
                         <div class="orderFormDetails">
                             <p>Ваши данные</p>
-                            <label for="nameField">Имя<br>
-                                <input type="text" id="nameField" name="nameField" required>
+                            <label for="full_name">Имя<br>
+                                <input type="text" id="nameField" name="full_name" required>
                             </label>
-                            <label for="emailField">Email<br>
-                                <input type="text" id="emailField" name="emailField" required>
+                            <label for="email">Email<br>
+                                <input type="text" id="emailField" name="email" required>
                             </label>
-                            <label for="spamConfirmation">
-                            <input type="checkbox" id="spamConfirmation" name="spamConfirmation" checked>Поулчать информацию о скидках и акциях
+                            <label for="subscribe">
+                            <input type="checkbox" id="spamConfirmation" name="subscribe" checked value="1">Поулчать информацию о скидках и акциях
                             </label>
-                            <label for="phoneField">Номер телефона<br>
-                                <input type="tel" id="phoneField" name="phoneField" required>
+                            <label for="phone">Номер телефона<br>
+                                <input type="tel" id="phoneField" name="phone" required>
                             </label>
-                            <label for="addressField">Адрес доставки<br>
-                                <label for="addressField" class="formPS">
-                                    <input type="text" id="addressField" name="addressField" required>
+                            <label for="delivery_address">Адрес доставки<br>
+                                <label for="delivery_address" class="formPS">
+                                    <input type="text" id="addressField" name="delivery_address" required>
                                     <br>Доставка осуществляется только по Москве
                                 </label>
                             </label>
@@ -83,16 +83,16 @@
                                 <legend>Время доставки:</legend>
                                 <div>
                                     <label for="fast">
-                                        <input type="radio" id="fast" name="deliveryTime" value="fast" required>Как можно скорее
+                                        <input type="radio" id="fast" name="delivery_type" value="now" required>Как можно скорее
                                     </label>
                                     <label for="timed">
-                                        <input type="radio" id="timed" name="deliveryTime" value="timed">К указанному времени
+                                        <input type="radio" id="timed" name="delivery_type" value="by_time">К указанному времени
                                     </label>
                                 </div>
                             </fieldset>
-                            <label for="exactTime">Укажите время доставки<br>
-                                <label for="exactTime" class="formPS">
-                                    <input type="time" id="exactTime" name="exactTime" min="07:00" max="23:00" step="300">
+                            <label for="delivery_time">Укажите время доставки<br>
+                                <label for="delivery_time" class="formPS">
+                                    <input type="time" id="exactTime" name="delivery_time" min="07:00" max="23:00" step="300">
                                     <br>Доступное время доставки с 7:00 до 23:00
                                 </label>
                             </label>
