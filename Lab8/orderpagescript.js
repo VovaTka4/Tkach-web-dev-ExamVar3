@@ -294,9 +294,6 @@ async function sendOrder() {
         if (formData.get('drink_id') == '') {
             formData.delete('drink_id');
         }
-        if (formData.get('delivery_type') == 'now') {
-            formData.delete('delivery_time');
-        }
         if (formData.get('comment') == '') {
             formData.delete('comment');
         }
