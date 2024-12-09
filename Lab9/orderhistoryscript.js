@@ -97,6 +97,151 @@ function deliveryTimeConcretizer (type, time) {
     }
 }
 
+async function deleteOrder (row, orderID) {
+    const rowIndex = row.rowIndex;
+    row.remove();
+    console.log(`Строка ${rowIndex} удалена.`);
+    const API_URL = `http://lab8-api.std-900.ist.mospolytech.ru/labs/api/orders/${orderID}?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84`;
+
+    try {
+        const response = await fetch(API_URL, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            throw new Error(`Ошибка HTTP: ${response.status}`);
+        }       
+    } catch (error) {
+        console.error("Ошибка при загрузке данных:", error);
+    }
+}
+
+function deleteConfirmation(row, orderID) {
+    const deleteConf = document.createElement("div");
+    deleteConf.className = "delete-box";
+
+    const toptext = document.createElement("p");
+    toptext.style.fontWeight = "bold";
+    toptext.textContent = "Удаление заказа";
+
+    const line1 = document.createElement("hr");
+    const line2 = document.createElement("hr");
+    line1.classList.add("lines");
+    line2.classList.add("lines");
+
+    const crossBtn = document.createElement("button");
+    crossBtn.className = "cross-button";
+    crossBtn.textContent = "X";
+
+    const text = document.createElement("p");
+    text.textContent = "Вы уверены, что хотите удалить заказ?";
+
+    const cancelBtn = document.createElement("button");
+    cancelBtn.className = "cancel-button";
+    cancelBtn.textContent = "Отмена";
+
+    const yesBtn = document.createElement("button");
+    yesBtn.className = "yes-button";
+    yesBtn.textContent = "Да";
+
+    crossBtn.addEventListener("click", () => {
+        deleteConf.style.display = "none";
+    });
+
+    cancelBtn.addEventListener("click", () => {
+        deleteConf.style.display = "none";
+    });
+
+    yesBtn.addEventListener("click", () => {
+        deleteOrder(row, orderId);
+    });
+
+    const buttonContainer = document.createElement("div");
+    buttonContainer.className = "deleteConfBtn-container";
+    buttonContainer.appendChild(cancelBtn);
+    buttonContainer.appendChild(yesBtn);
+
+    deleteConf.appendChild(toptext);
+    deleteConf.appendChild(line1);
+    deleteConf.appendChild(crossBtn);
+    deleteConf.appendChild(text);
+    deleteConf.appendChild(line2);
+    deleteConf.appendChild(buttonContainer);
+
+    document.body.appendChild(deleteConf);
+    deleteConf.style.display = "block";
+}
+
+async function editOrder (row, orderID) {
+    const API_URL = `http://lab8-api.std-900.ist.mospolytech.ru/labs/api/orders/${orderID}?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84`;
+
+    try {
+        const response = await fetch(API_URL, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(`Ошибка HTTP: ${response.status}`);
+        }       
+    } catch (error) {
+        console.error("Ошибка при загрузке данных:", error);
+    }
+}
+
+function detailsWindow(row, orderID) {
+    const detailsWind = document.createElement("div");
+    detailsWind.className = "details-box";
+
+    const toptext = document.createElement("p");
+    toptext.style.fontWeight = "bold";
+    toptext.textContent = "Просмотр заказа";
+
+    const line1 = document.createElement("hr");
+    const line2 = document.createElement("hr");
+    line1.classList.add("lines");
+    line2.classList.add("lines");
+
+    const crossBtn = document.createElement("button");
+    crossBtn.className = "cross-button";
+    crossBtn.textContent = "X";
+
+    const okBtn = document.createElement("button");
+    okBtn.className = "ok-button";
+    okBtn.textContent = "ОК";
+
+    crossBtn.addEventListener("click", () => {
+        detailsWind.style.display = "none";
+    });
+
+    okBtn.addEventListener("click", () => {
+        detailsWind.style.display = "none";
+    });
+
+    const detailsContainer = document.createElement("div");
+    detailsContainer.classList.add("details-container");
+
+    const leftDiv = document.createElement("div");
+    leftDiv.className = "details-left";
+    //ДОПИСАТЬ ТУТ ЛЕВЫЙ СТОЛБЕЦ
+
+    const rightDiv = document.createElement("div");
+    rightDiv.className = "details-right";
+    //ДОПИСАТЬ ТУТ ПРАВЫЙ СТОЛБЕЦ
+
+    detailsContainer.appendChild(leftDiv);
+    detailsContainer.appendChild(rightDiv);
+
+    detailsWind.appendChild(toptext);
+    detailsWind.appendChild(crossBtn);
+    detailsWind.appendChild(line1);
+    detailsWind.appendChild(detailsContainer);
+    detailsWind.appendChild(line2);
+    detailsWind.appendChild(okBtn);
+
+    document.body.appendChild(detailsWind);
+    detailsWind.style.display = "block";
+}
+
 function displayOrders() {
     const tableBody = document.querySelector('#ordersHistory tbody');
     tableBody.innerHTML = '';
@@ -140,24 +285,23 @@ function displayOrders() {
         const cellActions = document.createElement('td');
         const detailsButton = document.createElement('button');
         detailsButton.classList.add("historyButtons");
-        detailsButton.id = "detailsBtn";
         detailsButton.classList.add('btn', 'btn-outline-primary');
         detailsButton.innerHTML = `<i class="bi bi-eye"></i>`;
-        detailsButton.setAttribute('data-id', index);
+        detailsButton.addEventListener('click', () => detailsWindow(row, 
+            order.id));
 
         const editButton = document.createElement('button');
         editButton.classList.add("historyButtons");
-        editButton.id = "editBtn";
         editButton.classList.add('btn', 'btn-outline-secondary');
         editButton.innerHTML = `<i class="bi bi-pencil"></i>`;
-        editButton.setAttribute('data-id', index);
+        editButton.addEventListener('click', () => editOrder(row, order.id));
 
         const deleteButton = document.createElement('button');
         deleteButton.classList.add("historyButtons");
-        deleteButton.id = "deleteBtn";
         deleteButton.classList.add('btn', 'btn-outline-danger');
         deleteButton.innerHTML = `<i class="bi bi-trash"></i>`;
-        deleteButton.setAttribute('data-id', index);
+        deleteButton.addEventListener('click', () => deleteConfirmation(row, 
+            order.id));
 
         cellActions.appendChild(detailsButton);
         cellActions.appendChild(editButton);

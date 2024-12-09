@@ -34,3 +34,103 @@
 .historyButtons i {
     font-size: 20px;
 }
+
+.delete-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: left;
+    z-index: 1000;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cross-button {
+    position: absolute;
+    top: 10px;    
+    right: 10px; 
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.yes-button, .cancel-button, .ok-button {
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 0px 5px;
+    font-size: 16px;
+}
+
+.yes-button {
+    background-color: rgb(242, 41, 41);
+    color: white;
+    border: none;
+}
+
+.cancel-button {
+    background-color: antiquewhite;
+    border: none;
+}
+
+.ok-button {
+    background-color: antiquewhite;
+    border: none;
+}
+
+.deleteConfBtn-container {
+    display:flex;
+    justify-content: flex-end;
+    width:100%;
+    margin-top: 20px;
+}
+
+.lines {
+    margin: 10px 0;
+}
+
+.details-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: left;
+    z-index: 1000;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+}
+
+.details-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.details-left,
+.details-right {
+    flex: 1;
+}
+
+.details-left p {
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.details-right p {
+    margin: 5px 0;
+}
