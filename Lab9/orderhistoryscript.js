@@ -118,6 +118,7 @@ async function deleteOrder (row, orderID) {
 
 function deleteConfirmation(row, orderID) {
     const deleteConf = document.createElement("div");
+    const oId = orderID;
     deleteConf.className = "delete-box";
 
     const toptext = document.createElement("p");
@@ -153,7 +154,8 @@ function deleteConfirmation(row, orderID) {
     });
 
     yesBtn.addEventListener("click", () => {
-        deleteOrder(row, orderId);
+        deleteOrder(row, oId);
+        deleteConf.style.display = "none";
     });
 
     const buttonContainer = document.createElement("div");
@@ -172,12 +174,57 @@ function deleteConfirmation(row, orderID) {
     deleteConf.style.display = "block";
 }
 
-async function editOrder (row, orderID) {
+function orderToItems(main, soup, salad, drink, dessert) {
+    let allDishes = [];
+    
+    console.log(main, soup, salad, drink, dessert);
+
+    if (main != null) {
+        const mainDish = dishes.find(item => item.id === main);
+        if (mainDish) {
+            allDishes.push({category: "Основное блюдо", 
+                item: `${mainDish.name} (${mainDish.price}₽)`});
+            console.log(`${mainDish.name} (${mainDish.price}₽)`);
+        }
+    }
+    if (soup != null) {
+        const soupDish = dishes.find(item => item.id === soup);
+        if (soupDish) {
+            allDishes.push({category: "Суп", 
+                item: `${soupDish.name} (${soupDish.price}₽)`});
+        }
+    }
+    if (salad != null) {
+        const saladDish = dishes.find(item => item.id === salad);
+        if (saladDish) {
+            allDishes.push({category: "Салат или стартер", 
+                item:`${saladDish.name} (${saladDish.price}₽)`});
+        }
+    }
+    if (drink != null) {
+        const drinkDish = dishes.find(item => item.id === drink);
+        if (drinkDish) {
+            allDishes.push({category: "Напиток", 
+                item: `${drinkDish.name} (${drinkDish.price}₽)`});
+        }
+    }
+    if (dessert != null) {
+        const dessertDish = dishes.find(item => item.id === dessert);
+        if (dessertDish) {
+            allDishes.push({category: "Десерт",
+                item: `${dessertDish.name} (${dessertDish.price}₽)`});
+        }
+    }
+
+    return allDishes;
+}
+
+async function editOrder (orderID) {
     const API_URL = `http://lab8-api.std-900.ist.mospolytech.ru/labs/api/orders/${orderID}?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84`;
 
     try {
         const response = await fetch(API_URL, {
-            method: 'GET'
+            method: 'PUT'
         });
         const data = await response.json();
         if (!response.ok) {
@@ -188,7 +235,155 @@ async function editOrder (row, orderID) {
     }
 }
 
-function detailsWindow(row, orderID) {
+async function editWindow(orderID) {
+    const editWind = document.createElement("div");
+    editWind.className = "details-box";
+
+    const toptext = document.createElement("p");
+    toptext.style.fontWeight = "bold";
+    toptext.textContent = "Редактирование заказа";
+
+    const line1 = document.createElement("hr");
+    const line2 = document.createElement("hr");
+    line1.classList.add("lines");
+    line2.classList.add("lines");
+
+    const crossBtn = document.createElement("button");
+    crossBtn.className = "cross-button";
+    crossBtn.textContent = "X";
+    
+    const table = document.createElement("table");
+    table.className = "details-table";
+
+    const tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+
+    const order = orders.find(order => order.id === orderID);
+    console.log(order);
+
+    const data = {
+        created_at: dateReformer(order.created_at),
+        delivery: {
+            full_name: order.full_name,
+            address: order.delivery_address,
+            time: deliveryTimeConcretizer(order.delivery_type, 
+                order.delivery_time),
+            phone: order.phone,
+            email: order.email,
+        },
+        comment: order.comment,
+        items: orderToItems(order.main_course_id, order.soup_id, 
+            order.salad_id, order.drink_id, order.dessert_id),
+        total_price: countPrice(order.main_course_id, order.soup_id, 
+            order.drink_id, order.salad_id, order.dessert_id) + ' ₽',
+    };
+
+    console.log(data.items);
+
+    const rows = [
+        ["Дата оформления", data.created_at],
+        ["Доставка", ""],
+        ["Имя получателя", data.delivery.full_name],
+        ["Адрес доставки", data.delivery.address],
+        ["Время доставки", data.delivery.time],
+        ["Телефон", data.delivery.phone],
+        ["Email", data.delivery.email],
+        ["Комментарий", ""],
+        [data.comment || "Нет комментариев"],
+        ["Состав заказа", ""],
+    ];
+
+    rows.forEach(([label, value]) => {
+        const row = document.createElement("tr");
+
+        const cellLabel = document.createElement("td");
+        cellLabel.textContent = label;
+
+        const cellValue = document.createElement("td");
+        if (label === "Время доставки") {
+            cellValue.innerHTML = value;
+        } else {
+            cellValue.textContent = value;
+        }
+
+        if (["Доставка", "Комментарий", "Состав заказа"].includes(label)) {
+            cellLabel.style.fontWeight = "bold";
+        }
+
+        row.appendChild(cellLabel);
+        row.appendChild(cellValue);
+
+        tbody.appendChild(row);
+    });
+
+    data.items.forEach((item) => {
+        const itemRow = document.createElement("tr");
+
+        const itemLabel = document.createElement("td");
+        itemLabel.textContent = item.category;
+
+        const itemValue = document.createElement("td");
+        itemValue.textContent = item.item;
+
+        itemRow.appendChild(itemLabel);
+        itemRow.appendChild(itemValue);
+
+        tbody.appendChild(itemRow);
+    });
+
+    const totalRow = document.createElement("tr");
+    const totalLabel = document.createElement("td");
+    totalLabel.textContent = "Стоимость:";
+    totalLabel.style.fontWeight = "bold";
+
+    const totalValue = document.createElement("td");
+    totalValue.textContent = data.total_price;
+
+    totalRow.appendChild(totalLabel);
+    totalRow.appendChild(totalValue);
+
+    tbody.appendChild(totalRow);
+ 
+    const cancelBtn = document.createElement("button");
+    cancelBtn.className = "cancel-button";
+    cancelBtn.textContent = "Отмена";
+
+    const saveBtn = document.createElement("button");
+    saveBtn.className = "save-button";
+    saveBtn.textContent = "Сохранить";
+
+    crossBtn.addEventListener("click", () => {
+        editWind.style.display = "none";
+    });
+
+    cancelBtn.addEventListener("click", () => {
+        editWind.style.display = "none";
+    });
+
+    saveBtn.addEventListener("click", () => {
+        editOrder(orderID, newData);
+        editWind.style.display = "none";
+    });
+
+    const btnsRow = document.createElement("div");
+    btnsRow.classList.add("editWindBtn-container");
+
+    btnsRow.appendChild(cancelBtn);
+    btnsRow.appendChild(saveBtn);
+
+    editWind.appendChild(toptext);
+    editWind.appendChild(crossBtn);
+    editWind.appendChild(line1);
+    editWind.appendChild(table);
+    editWind.appendChild(line2);
+    editWind.appendChild(btnsRow);
+
+    document.body.appendChild(editWind);
+    editWind.style.display = "block";
+}
+
+
+async function detailsWindow(row, orderID) {
     const detailsWind = document.createElement("div");
     detailsWind.className = "details-box";
 
@@ -204,7 +399,99 @@ function detailsWindow(row, orderID) {
     const crossBtn = document.createElement("button");
     crossBtn.className = "cross-button";
     crossBtn.textContent = "X";
+    
+    const table = document.createElement("table");
+    table.className = "details-table";
 
+    const tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+
+    const order = orders.find(order => order.id === orderID);
+    console.log(order);
+
+    const data = {
+        created_at: dateReformer(order.created_at),
+        delivery: {
+            full_name: order.full_name,
+            address: order.delivery_address,
+            time: deliveryTimeConcretizer(order.delivery_type, 
+                order.delivery_time),
+            phone: order.phone,
+            email: order.email,
+        },
+        comment: order.comment,
+        items: orderToItems(order.main_course_id, order.soup_id, 
+            order.salad_id, order.drink_id, order.dessert_id),
+        total_price: countPrice(order.main_course_id, order.soup_id, 
+            order.drink_id, order.salad_id, order.dessert_id) + ' ₽',
+    };
+
+    console.log(data.items);
+
+    const rows = [
+        ["Дата оформления", data.created_at],
+        ["Доставка", ""],
+        ["Имя получателя", data.delivery.full_name],
+        ["Адрес доставки", data.delivery.address],
+        ["Время доставки", data.delivery.time],
+        ["Телефон", data.delivery.phone],
+        ["Email", data.delivery.email],
+        ["Комментарий", ""],
+        [data.comment || "Нет комментариев"],
+        ["Состав заказа", ""],
+    ];
+
+    rows.forEach(([label, value]) => {
+        const row = document.createElement("tr");
+
+        const cellLabel = document.createElement("td");
+        cellLabel.textContent = label;
+
+        const cellValue = document.createElement("td");
+        if (label === "Время доставки") {
+            cellValue.innerHTML = value;
+        } else {
+            cellValue.textContent = value;
+        }
+
+        if (["Доставка", "Комментарий", "Состав заказа"].includes(label)) {
+            cellLabel.style.fontWeight = "bold";
+        }
+
+        row.appendChild(cellLabel);
+        row.appendChild(cellValue);
+
+        tbody.appendChild(row);
+    });
+
+    data.items.forEach((item) => {
+        const itemRow = document.createElement("tr");
+
+        const itemLabel = document.createElement("td");
+        itemLabel.textContent = item.category;
+
+        const itemValue = document.createElement("td");
+        itemValue.textContent = item.item;
+
+        itemRow.appendChild(itemLabel);
+        itemRow.appendChild(itemValue);
+
+        tbody.appendChild(itemRow);
+    });
+
+    const totalRow = document.createElement("tr");
+    const totalLabel = document.createElement("td");
+    totalLabel.textContent = "Стоимость:";
+    totalLabel.style.fontWeight = "bold";
+
+    const totalValue = document.createElement("td");
+    totalValue.textContent = data.total_price;
+
+    totalRow.appendChild(totalLabel);
+    totalRow.appendChild(totalValue);
+
+    tbody.appendChild(totalRow);
+ 
     const okBtn = document.createElement("button");
     okBtn.className = "ok-button";
     okBtn.textContent = "ОК";
@@ -217,24 +504,10 @@ function detailsWindow(row, orderID) {
         detailsWind.style.display = "none";
     });
 
-    const detailsContainer = document.createElement("div");
-    detailsContainer.classList.add("details-container");
-
-    const leftDiv = document.createElement("div");
-    leftDiv.className = "details-left";
-    //ДОПИСАТЬ ТУТ ЛЕВЫЙ СТОЛБЕЦ
-
-    const rightDiv = document.createElement("div");
-    rightDiv.className = "details-right";
-    //ДОПИСАТЬ ТУТ ПРАВЫЙ СТОЛБЕЦ
-
-    detailsContainer.appendChild(leftDiv);
-    detailsContainer.appendChild(rightDiv);
-
     detailsWind.appendChild(toptext);
     detailsWind.appendChild(crossBtn);
     detailsWind.appendChild(line1);
-    detailsWind.appendChild(detailsContainer);
+    detailsWind.appendChild(table);
     detailsWind.appendChild(line2);
     detailsWind.appendChild(okBtn);
 
@@ -294,7 +567,7 @@ function displayOrders() {
         editButton.classList.add("historyButtons");
         editButton.classList.add('btn', 'btn-outline-secondary');
         editButton.innerHTML = `<i class="bi bi-pencil"></i>`;
-        editButton.addEventListener('click', () => editOrder(row, order.id));
+        editButton.addEventListener('click', () => editWindow(order.id));
 
         const deleteButton = document.createElement('button');
         deleteButton.classList.add("historyButtons");

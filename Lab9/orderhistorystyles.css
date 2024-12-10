@@ -64,7 +64,7 @@
     cursor: pointer;
 }
 
-.yes-button, .cancel-button, .ok-button {
+.yes-button, .cancel-button, .ok-button, .save-button {
     border-radius: 10px;
     cursor: pointer;
     padding: 10px 20px;
@@ -86,9 +86,23 @@
 .ok-button {
     background-color: antiquewhite;
     border: none;
+    float: right;
+}
+
+.save-button {
+    background-color: rgb(21, 170, 26);
+    color: white;
+    border: none;
 }
 
 .deleteConfBtn-container {
+    display:flex;
+    justify-content: flex-end;
+    width:100%;
+    margin-top: 20px;
+}
+
+.editWindBtn-container {
     display:flex;
     justify-content: flex-end;
     width:100%;
@@ -111,7 +125,7 @@
     padding: 20px;
     text-align: left;
     z-index: 1000;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 1);
     font-family: Arial, sans-serif;
 }
 
@@ -133,4 +147,11 @@
 
 .details-right p {
     margin: 5px 0;
+}
+
+.details-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    font-size: 16px;
 }
