@@ -219,12 +219,13 @@ function orderToItems(main, soup, salad, drink, dessert) {
     return allDishes;
 }
 
-async function editOrder (orderID) {
+async function editOrder (orderID, updatedData) {
     const API_URL = `http://lab8-api.std-900.ist.mospolytech.ru/labs/api/orders/${orderID}?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84`;
 
     try {
         const response = await fetch(API_URL, {
-            method: 'PUT'
+            method: 'PUT',
+            body: JSON.stringify(updatedData)
         });
         const data = await response.json();
         if (!response.ok) {
@@ -278,33 +279,45 @@ async function editWindow(orderID) {
             order.drink_id, order.salad_id, order.dessert_id) + ' ₽',
     };
 
+    data.comment = data.comment ? data.comment : "Нет комментария"; 
+
     console.log(data.items);
 
     const rows = [
-        ["Дата оформления", data.created_at],
+        ["Дата оформления", `<span>${data.created_at}</span>`],
         ["Доставка", ""],
-        ["Имя получателя", data.delivery.full_name],
-        ["Адрес доставки", data.delivery.address],
-        ["Время доставки", data.delivery.time],
-        ["Телефон", data.delivery.phone],
-        ["Email", data.delivery.email],
+        ["Имя получателя", `<input type="text" 
+            value="${data.delivery.full_name}" 
+            class="form-input" id="editFullName">`],
+        ["Адрес доставки", `<input type="text" value="${data.delivery.address}"
+            id="editAddress" class="form-input">`],
+        ["Тип доставки", `
+            <div class="radio-vertical">
+                <label><input type="radio" name="deliveryType" value="now" 
+                    ${data.delivery_type === "now" ? "checked" : ""}
+                    > Как можно скорее</label>
+                 <label><input type="radio" name="deliveryType" value="by_time" 
+                 ${data.delivery_type === "by_time" ? "checked" : ""}>
+                 Ко времени</label>
+            </div>
+        `],
+        ["Время доставки", `<input type="time" value="${data.delivery.time}"
+             id="editTime" min="07:00" max="23:00" step="300">`],
+        ["Телефон", `<input type="text" value="${data.delivery.phone}" 
+            id="editPhone" class="form-input">`],
+        ["Email", `<input type="text" value="${data.delivery.email}" 
+            id="editEmail" class="form-input">`],
         ["Комментарий", ""],
-        [data.comment || "Нет комментариев"],
-        ["Состав заказа", ""],
-    ];
+    ]; 
 
     rows.forEach(([label, value]) => {
         const row = document.createElement("tr");
 
         const cellLabel = document.createElement("td");
-        cellLabel.textContent = label;
+        cellLabel.innerHTML = label;
 
         const cellValue = document.createElement("td");
-        if (label === "Время доставки") {
-            cellValue.innerHTML = value;
-        } else {
-            cellValue.textContent = value;
-        }
+        cellValue.innerHTML = value;
 
         if (["Доставка", "Комментарий", "Состав заказа"].includes(label)) {
             cellLabel.style.fontWeight = "bold";
@@ -315,6 +328,23 @@ async function editWindow(orderID) {
 
         tbody.appendChild(row);
     });
+
+    const commentRow = document.createElement("tr");
+
+    const commentValue = document.createElement("td");
+    commentValue.setAttribute("colspan", "2");
+    commentValue.innerHTML = `<textarea id="editComment" style="width: 100%; height: 60px;">${data.comment}</textarea>`;
+
+    commentRow.appendChild(commentValue);
+    tbody.appendChild(commentRow);
+
+    const detailsRow = document.createElement("tr");
+
+    const detailsLabel = document.createElement("td");
+    detailsLabel.innerHTML = `Состав заказа`;
+    detailsLabel.style.fontWeight = "bold";
+    detailsRow.appendChild(detailsLabel);
+    tbody.appendChild(detailsRow);
 
     data.items.forEach((item) => {
         const itemRow = document.createElement("tr");
@@ -361,7 +391,28 @@ async function editWindow(orderID) {
     });
 
     saveBtn.addEventListener("click", () => {
-        editOrder(orderID, newData);
+
+        console.log("Поле Имя:", document.getElementById("editFullName").value);
+        console.log("Поле Адрес:", document.getElementById("editAddress").value);
+        console.log("Тип доставки:", document.querySelector('input[name="deliveryType"]:checked').value);
+        console.log("Время доставки:", document.getElementById("editTime").value);
+        console.log("Телефон:", document.getElementById("editPhone").value);
+        console.log("Email:", document.getElementById("editEmail").value);
+        console.log("Комментарий:", document.getElementById("editComment").value);
+
+        const updatedData = {
+            full_name: document.getElementById("editFullName").value.trim(),
+            address: document.getElementById("editAddress").value.trim(),
+            delivery_type: document.querySelector('input[name="deliveryType"]:checked').value,
+            delivery_time: document.getElementById("editTime").value,
+            phone: document.getElementById("editPhone").value.trim(),
+            email: document.getElementById("editEmail").value.trim(),
+            comment: document.getElementById("editComment").value.trim(),
+        };
+    
+        console.log("Обновлённые данные для отправки:", updatedData);
+
+        editOrder(orderID, updatedData);
         editWind.style.display = "none";
     });
 
@@ -381,7 +432,6 @@ async function editWindow(orderID) {
     document.body.appendChild(editWind);
     editWind.style.display = "block";
 }
-
 
 async function detailsWindow(row, orderID) {
     const detailsWind = document.createElement("div");

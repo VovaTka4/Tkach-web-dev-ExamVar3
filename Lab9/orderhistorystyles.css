@@ -140,18 +140,29 @@
     flex: 1;
 }
 
-.details-left p {
-    font-weight: bold;
-    margin: 5px 0;
-}
-
-.details-right p {
-    margin: 5px 0;
-}
-
 .details-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 10px;
+    border-spacing: 0 2px;
     font-size: 16px;
+}
+
+.radio-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; 
+}
+
+.form-input {
+    width: 100%; 
+    max-width: 250px;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+#editTime {
+    box-sizing: border-box;
+    width: 250px;
+    height: 30px;
 }
