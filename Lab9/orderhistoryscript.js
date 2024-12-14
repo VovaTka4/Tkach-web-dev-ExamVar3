@@ -632,7 +632,10 @@ function displayOrders() {
     const tableBody = document.querySelector('#ordersHistory tbody');
     tableBody.innerHTML = '';
 
-    orders.forEach((order, index) => {
+    const sortedOrders = orders.slice().sort((a, b) => 
+        new Date(b.created_at) - new Date(a.created_at));
+
+    sortedOrders.forEach((order, index) => {
         const row = document.createElement('tr');
         row.classList.add('orderHistoryRow');
 
