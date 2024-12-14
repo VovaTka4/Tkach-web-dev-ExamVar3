@@ -129,6 +129,22 @@
     font-family: Arial, sans-serif;
 }
 
+.edit-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: left;
+    z-index: 1000;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 1);
+    font-family: Arial, sans-serif;
+}
+
 .details-container {
     display: flex;
     justify-content: space-between;

@@ -117,6 +117,22 @@ async function deleteOrder (row, orderID) {
 }
 
 function deleteConfirmation(row, orderID) {
+
+    let existingDelWindow = document.querySelector(".delete-box");
+    if (existingDelWindow) {
+        existingDelWindow.remove();
+    }
+
+    let existingDWindow = document.querySelector(".details-box");
+    if (existingDWindow) {
+        existingDWindow.remove();
+    }
+
+    let existingEwindow = document.querySelector(".edit-box");
+    if (existingEwindow) {
+        existingEwindow.remove();
+    }
+
     const deleteConf = document.createElement("div");
     const oId = orderID;
     deleteConf.className = "delete-box";
@@ -134,8 +150,11 @@ function deleteConfirmation(row, orderID) {
     crossBtn.className = "cross-button";
     crossBtn.textContent = "X";
 
+    const orderIndex = row.getAttribute('data-index');
+
     const text = document.createElement("p");
-    text.textContent = "Вы уверены, что хотите удалить заказ?";
+    text.textContent = "Вы уверены, что хотите удалить заказ №" + 
+        (parseInt(orderIndex) + 1) + " ?";
 
     const cancelBtn = document.createElement("button");
     cancelBtn.className = "cancel-button";
@@ -153,9 +172,10 @@ function deleteConfirmation(row, orderID) {
         deleteConf.style.display = "none";
     });
 
-    yesBtn.addEventListener("click", () => {
-        deleteOrder(row, oId);
+    yesBtn.addEventListener("click", async () => {
+        await deleteOrder(row, oId);
         deleteConf.style.display = "none";
+        location.reload();
     });
 
     const buttonContainer = document.createElement("div");
@@ -220,11 +240,15 @@ function orderToItems(main, soup, salad, drink, dessert) {
 }
 
 async function editOrder (orderID, updatedData) {
-    const API_URL = `http://lab8-api.std-900.ist.mospolytech.ru/labs/api/orders/${orderID}?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84`;
+    const API_URL = `http://lab8-api.std-900.ist.mospolytech.ru/labs/api/
+        orders/${orderID}?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84`;
 
     try {
         const response = await fetch(API_URL, {
             method: 'PUT',
+            headers: {
+                'Content-type': 'application/json'
+            },
             body: JSON.stringify(updatedData)
         });
         const data = await response.json();
@@ -237,8 +261,23 @@ async function editOrder (orderID, updatedData) {
 }
 
 async function editWindow(orderID) {
+    let existingDelWindow = document.querySelector(".delete-box");
+    if (existingDelWindow) {
+        existingDelWindow.remove();
+    }
+
+    let existingDWindow = document.querySelector(".details-box");
+    if (existingDWindow) {
+        existingDWindow.remove();
+    }
+
+    let existingEwindow = document.querySelector(".edit-box");
+    if (existingEwindow) {
+        existingEwindow.remove();
+    }
+
     const editWind = document.createElement("div");
-    editWind.className = "details-box";
+    editWind.className = "edit-box";
 
     const toptext = document.createElement("p");
     toptext.style.fontWeight = "bold";
@@ -333,7 +372,8 @@ async function editWindow(orderID) {
 
     const commentValue = document.createElement("td");
     commentValue.setAttribute("colspan", "2");
-    commentValue.innerHTML = `<textarea id="editComment" style="width: 100%; height: 60px;">${data.comment}</textarea>`;
+    commentValue.innerHTML = `<textarea id="editComment" style="width: 100%; 
+        height: 60px;">${data.comment}</textarea>`;
 
     commentRow.appendChild(commentValue);
     tbody.appendChild(commentRow);
@@ -390,20 +430,26 @@ async function editWindow(orderID) {
         editWind.style.display = "none";
     });
 
-    saveBtn.addEventListener("click", () => {
+    saveBtn.addEventListener("click", async () => {
 
         console.log("Поле Имя:", document.getElementById("editFullName").value);
-        console.log("Поле Адрес:", document.getElementById("editAddress").value);
-        console.log("Тип доставки:", document.querySelector('input[name="deliveryType"]:checked').value);
-        console.log("Время доставки:", document.getElementById("editTime").value);
+        console.log("Поле Адрес:", document.getElementById(
+            "editAddress").value);
+        console.log("Тип доставки:", document.querySelector(
+            'input[name="deliveryType"]:checked').value);
+        console.log("Время доставки:", document.getElementById(
+            "editTime").value);
         console.log("Телефон:", document.getElementById("editPhone").value);
         console.log("Email:", document.getElementById("editEmail").value);
-        console.log("Комментарий:", document.getElementById("editComment").value);
+        console.log("Комментарий:", document.getElementById(
+            "editComment").value);
 
         const updatedData = {
             full_name: document.getElementById("editFullName").value.trim(),
-            address: document.getElementById("editAddress").value.trim(),
-            delivery_type: document.querySelector('input[name="deliveryType"]:checked').value,
+            delivery_address: document.getElementById(
+                "editAddress").value.trim(),
+            delivery_type: document.querySelector(
+                'input[name="deliveryType"]:checked').value,
             delivery_time: document.getElementById("editTime").value,
             phone: document.getElementById("editPhone").value.trim(),
             email: document.getElementById("editEmail").value.trim(),
@@ -412,8 +458,9 @@ async function editWindow(orderID) {
     
         console.log("Обновлённые данные для отправки:", updatedData);
 
-        editOrder(orderID, updatedData);
+        await editOrder(orderID, updatedData);
         editWind.style.display = "none";
+        location.reload();
     });
 
     const btnsRow = document.createElement("div");
@@ -434,6 +481,22 @@ async function editWindow(orderID) {
 }
 
 async function detailsWindow(row, orderID) {
+
+    let existingDelWindow = document.querySelector(".delete-box");
+    if (existingDelWindow) {
+        existingDelWindow.remove();
+    }
+
+    let existingDWindow = document.querySelector(".details-box");
+    if (existingDWindow) {
+        existingDWindow.remove();
+    }
+
+    let existingEwindow = document.querySelector(".edit-box");
+    if (existingEwindow) {
+        existingEwindow.remove();
+    }
+
     const detailsWind = document.createElement("div");
     detailsWind.className = "details-box";
 
@@ -586,6 +649,7 @@ function displayOrders() {
 
         const cellIndex = document.createElement('td');
         cellIndex.textContent = index + 1;
+        row.setAttribute('data-index', index);
         row.appendChild(cellIndex);
 
         const cellRegDate = document.createElement('td');
