@@ -240,8 +240,7 @@ function orderToItems(main, soup, salad, drink, dessert) {
 }
 
 async function editOrder (orderID, updatedData) {
-    const API_URL = `http://lab8-api.std-900.ist.mospolytech.ru/labs/api/
-        orders/${orderID}?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84`;
+    const API_URL = `http://lab8-api.std-900.ist.mospolytech.ru/labs/api/orders/${orderID}?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84`;
 
     try {
         const response = await fetch(API_URL, {
