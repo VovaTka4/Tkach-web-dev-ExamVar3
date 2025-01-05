@@ -1,0 +1,23 @@
+#logo {
+    height: 50px;
+    width: auto;
+}
+
+#profileIcon, #basketIcon {
+    color:rgb(138, 43, 226);
+    font-size: 40px;
+    margin: 10px
+}
+
+#profileIcon:hover, #basketIcon:hover {
+    color:rgb(65, 21, 106);
+}
+
+.darkZonesTxt {
+    color: white;
+}
+
+.stars {
+    color: yellow;
+    -webkit-text-stroke: 1px black;
+}
