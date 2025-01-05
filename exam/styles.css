@@ -3,13 +3,13 @@
     width: auto;
 }
 
-#profileIcon, #basketIcon {
+#profileIcon, #basketIcon, #mainpageIcon {
     color:rgb(138, 43, 226);
     font-size: 40px;
     margin: 10px
 }
 
-#profileIcon:hover, #basketIcon:hover {
+#profileIcon:hover, #basketIcon:hover, #mainpageIcon:hover {
     color:rgb(65, 21, 106);
 }
 
