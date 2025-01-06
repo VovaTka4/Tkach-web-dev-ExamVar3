@@ -120,7 +120,8 @@ displayBusket = function() {
             priceContainer.appendChild(Aprice);
         
             const discountPercentage = Math.round(
-                ((item.actual_price - item.discount_price) / item.actual_price) * 100
+                ((item.actual_price - item.discount_price) 
+                    / item.actual_price) * 100
             );
             const discount = document.createElement('span');
             discount.classList.add('discount');
@@ -135,7 +136,8 @@ displayBusket = function() {
 
             deleteButton.onclick = function() {
                 removeItemFromBasket(item.uniqueId);
-                createNotification("Убрали " + item.name + " из Вашей корзины!");
+                createNotification("Убрали " + item.name + 
+                    " из Вашей корзины!");
             };
 
             itemCard.appendChild(deleteButton);

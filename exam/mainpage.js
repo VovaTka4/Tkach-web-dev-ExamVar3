@@ -52,7 +52,8 @@ function displayItems(howMuch) {
         priceContainer.appendChild(Aprice);
 
         const discountPercentage = Math.round(
-            ((item.actual_price - item.discount_price) / item.actual_price) * 100
+            ((item.actual_price - item.discount_price) 
+                / item.actual_price) * 100
         );
         const discount = document.createElement('span');
         discount.classList.add('discount');
