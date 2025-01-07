@@ -21,11 +21,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     background-color: white;
     border: 2px solid transparent;
     filter: drop-shadow(17px 19px 24px rgba(0,0,0,0.13));
     cursor: pointer;
+    min-height: 600px;
     text-align: left;
     padding: 15px 20px;
 }
@@ -40,8 +41,8 @@
 }
 
 .item-card img{
-    width: 100%;
-    height: auto;
+    max-height: 200px;
+    width: auto;
     margin-bottom: 10px;
 }
 
@@ -78,6 +79,13 @@
 .discount {
     color: red;
     font-weight: bold;
+}
+
+.rating-container {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    width: 100%;
 }
 
 .stars {

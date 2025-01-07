@@ -78,7 +78,7 @@ displayBusket = function() {
         document.getElementById("empty").style.display = "none";
         wholeBasket.forEach(item => {
             const col = document.createElement('div');
-            col.classList.add('col', 'col-lg-2', 'col-md-6', 'col-sm-12');
+            col.classList.add('col', 'col-lg-4', 'col-md-6', 'col-sm-12');
 
             const itemCard = document.createElement('div');
             itemCard.classList.add('item-card');
@@ -95,7 +95,10 @@ displayBusket = function() {
             name.textContent = item.name;
             itemCard.appendChild(name);
 
+            const ratingContainer = document.createElement('div');
+            ratingContainer.classList.add('rating-container');
             const rating = document.createElement('p');
+            ratingContainer.appendChild(rating);
             rating.classList.add('rating');
             rating.textContent = item.rating.toFixed(1) + ' ';
             for (let j = 0; j < 5; j++) {
@@ -104,29 +107,35 @@ displayBusket = function() {
                     j < item.rating ? 'bi-star-fill' : 'bi-star', 'stars');
                 rating.appendChild(star);
             }
-            itemCard.appendChild(rating);
+            itemCard.appendChild(ratingContainer);
 
             const priceContainer = document.createElement('div');
             priceContainer.classList.add('price-container');
-        
-            const Dprice = document.createElement('span');
-            Dprice.classList.add('price', 'discount-price');
-            Dprice.textContent = item.discount_price + '₽ ';
-            priceContainer.appendChild(Dprice);
+            if (item.discount_price === null) {
+                const Aprice = document.createElement('span');
+                Aprice.classList.add('price', 'discount-price');
+                Aprice.textContent = item.actual_price + '₽';
+                priceContainer.appendChild(Aprice); 
+            } else {
+                const Dprice = document.createElement('span');
+                Dprice.classList.add('price', 'discount-price');
+                Dprice.textContent = item.discount_price + '₽ ';
+                priceContainer.appendChild(Dprice);
 
-            const Aprice = document.createElement('span');
-            Aprice.classList.add('price', 'actual-price');
-            Aprice.textContent = item.actual_price + '₽';
-            priceContainer.appendChild(Aprice);
-        
-            const discountPercentage = Math.round(
-                ((item.actual_price - item.discount_price) 
-                    / item.actual_price) * 100
-            );
-            const discount = document.createElement('span');
-            discount.classList.add('discount');
-            discount.textContent = ' -' + discountPercentage + '%';
-            priceContainer.appendChild(discount);
+                const Aprice = document.createElement('span');
+                Aprice.classList.add('price', 'actual-price');
+                Aprice.textContent = item.actual_price + '₽';
+                priceContainer.appendChild(Aprice);
+            
+                const discountPercentage = Math.round(
+                    ((item.actual_price - item.discount_price) 
+                        / item.actual_price) * 100
+                );
+                const discount = document.createElement('span');
+                discount.classList.add('discount');
+                discount.textContent = ' -' + discountPercentage + '%';
+                priceContainer.appendChild(discount);
+            }
 
             itemCard.appendChild(priceContainer);
         
@@ -142,7 +151,8 @@ displayBusket = function() {
 
             itemCard.appendChild(deleteButton);
 
-            total += item.discount_price;
+            total += (item.discount_price === null) ? 
+                item.actual_price : item.discount_price;
             
             col.appendChild(itemCard);
             itemsContainer.appendChild(col);
@@ -177,8 +187,14 @@ document.getElementById("postB").onclick = function(event) {
     const addressForm = document.getElementById('addressField');
     const deliveryDate = document.querySelector('#delDate');
     const deliveryTime = document.getElementById('delTime');
+    const order = JSON.parse(
+        localStorage.getItem('selectedItems')) || [];
 
-    if (nameForm.value === '') {
+    console.log(order);
+
+    if (order.length === 0) {
+        createNotification('Выберите товары в каталоге!');
+    } else if (nameForm.value === '') {
         createNotification('Укажите имя!');
     } else if (phoneForm.value === '') {
         createNotification('Укажите номер телефона!');
