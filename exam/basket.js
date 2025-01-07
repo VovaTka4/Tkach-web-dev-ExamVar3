@@ -12,6 +12,11 @@ async function sendOrder() {
         const form = document.getElementById('orderFormData');
         const formData = new FormData(form);
 
+        const dateValue = formData.get('delivery_date');
+        const [year, month, day] = dateValue.split('-');
+        const formattedDate = `${day}.${month}.${year}`;
+        formData.set('delivery_date', formattedDate);
+
         if (!formData.has('subscribe')) {
             formData.append('subscribe', '0');
         } else {
