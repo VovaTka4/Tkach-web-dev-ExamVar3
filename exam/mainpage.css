@@ -15,20 +15,6 @@
     height: 100vh;
 }
 
-html, body {
-    height: 100%;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-main {
-    flex-grow: 1;
-}
-
 #items {
     margin-top: 20px;
     max-height: 800px;

@@ -26,8 +26,11 @@ async function sendOrder() {
             formData.delete('comment');
         }
 
-        formData.append('goods_ids', JSON.stringify(JSON.parse(
-            localStorage.getItem('selectedItems')) || []));
+        const selectedGoods = JSON.parse(localStorage.getItem('selectedItems'));
+
+        for (let item of selectedGoods) {
+            formData.append('good_ids', item);
+        }
 
         console.log("Отправляемые данные:");
         for (const [key, value] of formData.entries()) {

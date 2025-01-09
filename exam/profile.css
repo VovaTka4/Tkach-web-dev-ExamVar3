@@ -1,0 +1,58 @@
+#ordersHistory {
+    width:100%;
+    border-collapse: collapse;
+}
+
+#ordersHistory th {
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    height: 20px;
+    padding: 20px 15px;
+    white-space: nowrap;
+}
+
+.wholeOrder {
+    text-align: left;
+    padding: 20px 15px;
+
+}
+
+.actionButtonsCell {
+    width: 200px;
+}
+
+.orderHistoryRow {
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+
+.historyButtons {
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color:rgb(138, 43, 226);;
+}
+
+.historyButtons i {
+    font-size: 20px;
+}
+
+.historyButtons:hover {
+    background-color:rgb(65, 21, 106);;
+}
+
+#ordersHistory tr {
+    height: 100%;
+}
+
+#ordersHistory td {
+    height: 100%;
+    vertical-align: middle;
+}
+
+* {
+    box-sizing: border-box;
+}
