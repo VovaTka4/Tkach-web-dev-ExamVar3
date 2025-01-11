@@ -23,6 +23,14 @@ function createNotification(text) {
     notificationContainer.appendChild(notsBox);
 }
 
+function dateReformer (dateToReform) {
+    const [date, time] = dateToReform.split('T');
+    const [year, month, day] = date.split('-');
+    const [hour, minute] = time.split(':');
+    
+    return `${day}.${month}.${year} ${hour}:${minute}`;
+}
+
 async function loadItems() {
     const API_URL = "http://api.std-900.ist.mospolytech.ru/exam-2024-1/api/goods?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84";
 

@@ -33,7 +33,7 @@
     border: none;
     cursor: pointer;
     color: white;
-    background-color:rgb(138, 43, 226);;
+    background-color:rgb(138, 43, 226);
 }
 
 .historyButtons i {
@@ -41,7 +41,11 @@
 }
 
 .historyButtons:hover {
-    background-color:rgb(65, 21, 106);;
+    background-color: rgb(65, 21, 106);
+}
+
+.historyButtons:active {
+    background-color: rgb(65, 21, 106);
 }
 
 #ordersHistory tr {
@@ -53,6 +57,108 @@
     vertical-align: middle;
 }
 
-* {
-    box-sizing: border-box;
+.delete-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: left;
+    z-index: 1000;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cross-button {
+    position: absolute;
+    top: 10px;    
+    right: 10px; 
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.yes-button, .cancel-button, .ok-button, .save-button {
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 0px 5px;
+    font-size: 16px;
+}
+
+.yes-button {
+    background-color: rgb(242, 41, 41);
+    color: white;
+    border: none;
+}
+
+.cancel-button {
+    background-color: rgb(138, 43, 226);
+    color: white;
+    border: none;
+}
+
+.cancel-button:hover {
+    background-color: rgb(65, 21, 106);
+}
+
+.yes-button:hover {
+    background-color: rgb(173, 31, 31);
+}
+
+.ok-button {
+    background-color: rgb(138, 43, 226);
+    color: white;
+    border: none;
+    float: right;
+}
+
+.ok-button:hover {
+    background-color: rgb(65, 21, 106);
+}
+
+
+.save-button {
+    background-color: rgb(21, 170, 26);
+    color: white;
+    border: none;
+}
+
+.deleteConfBtn-container {
+    display:flex;
+    justify-content: flex-end;
+    width:100%;
+    margin-top: 20px;
+}
+
+.details-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: left;
+    z-index: 1000;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 1);
+    font-family: Arial, sans-serif;
+}
+
+.details-box td {
+    vertical-align: top;
+}
+
+.details-table th:first-child, .details-table td:first-child {
+    width: 150px; 
 }
