@@ -31,6 +31,13 @@ function dateReformer (dateToReform) {
     return `${day}.${month}.${year} ${hour}:${minute}`;
 }
 
+function dateReformerDateOnly (dateToReform) {
+    const [year, month, day] = dateToReform.split('-');
+    
+    return `${day}.${month}.${year}`;
+}
+
+
 async function loadItems() {
     const API_URL = "http://api.std-900.ist.mospolytech.ru/exam-2024-1/api/goods?api_key=9f320335-2dcc-4150-9e14-b8d13bd4bb84";
 

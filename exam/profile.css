@@ -132,6 +132,10 @@
     border: none;
 }
 
+.save-button:hover {
+    background-color: rgb(14, 122, 18);
+}
+
 .deleteConfBtn-container {
     display:flex;
     justify-content: flex-end;
@@ -159,6 +163,44 @@
     vertical-align: top;
 }
 
+.edit-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: left;
+    z-index: 1000;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 1);
+    font-family: Arial, sans-serif;
+}
+
+.edit-box td {
+    vertical-align: top;
+}
+
+.edit-box input, .edit-box select {
+    width: 200px;
+}
+
+.comment-section {
+    width: 300px;
+    min-height: 100px;
+    max-height: 100px;
+    overflow-y: auto;
+}
+
 .details-table th:first-child, .details-table td:first-child {
     width: 150px; 
+}
+
+.buttons-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
 }

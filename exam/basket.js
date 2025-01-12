@@ -17,11 +17,6 @@ async function sendOrder() {
         const formattedDate = `${day}.${month}.${year}`;
         formData.set('delivery_date', formattedDate);
 
-        if (!formData.has('subscribe')) {
-            formData.append('subscribe', '0');
-        } else {
-            formData.set('subscribe', '1');
-        }
         if (formData.get('comment') == '') {
             formData.delete('comment');
         }
